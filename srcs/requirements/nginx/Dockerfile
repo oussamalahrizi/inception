@@ -9,7 +9,6 @@ RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/olahrizi.key -ou
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-COPY ./conf/index.html /var/www/html/index.html
 
 RUN chmod 755 /var/www/html
 

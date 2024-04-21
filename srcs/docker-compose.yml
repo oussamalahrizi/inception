@@ -11,6 +11,12 @@ volumes:
       o : "bind"
       type : "none"
       device : "../data/mariadb"
+  wordpress-data:
+    driver: local
+    driver_opts:
+      o : "bind"
+      type : "none"
+      device : "../data/wordpress"
 
 services:
   mariadb:
@@ -31,17 +37,21 @@ services:
         - inception
     ports:
       - "443:443"
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
+    volumes:
+      - "wordpress-data:/var/www/html"
   
-  # wordpress:
-  #   build : "./requirements/wordpress/."
-  #   container_name : "wordpress"
-  #   ports :
-  #   - 9000
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - inception
-  #   env_file:
-  #     - .env
+  wordpress:
+    build : "./requirements/wordpress/."
+    container_name : "wordpress"
+    ports :
+    - 9000
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    env_file:
+      - .env
+    volumes:
+      - "wordpress-data:/var/www/html"

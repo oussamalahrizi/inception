@@ -7,10 +7,11 @@ RUN apt update -y && \
 	php-fpm \
 	php-pdo \
 	php-gd php-cli \
-  wget curl \
-  mariadb-client
+	php-mbstring \
+  mariadb-client curl wget
 
 
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
 COPY ./tools/init.sh  /bin/init.sh
 RUN chmod +x /bin/init.sh
 
@@ -26,6 +27,7 @@ RUN wget https://wordpress.org/latest.tar.gz && \
   rm -rf wordpress
 
 RUN mv wp-config-sample.php wp-config.php
+
 
 # wp cli to create admin user and normal user for automated config
 
