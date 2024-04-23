@@ -12,6 +12,9 @@ sed -i "s/'password_here'/'$MYSQL_PASSWORD'/g" "$WP_CONFIG"
 sed -i "s/define( 'DB_HOST', 'localhost' );/define( 'DB_HOST', 'mariadb:3306');/" "$WP_CONFIG"
 
 
+echo "define('WP_HOME', 'https://olahrizi.42.fr');
+define('WP_SITEURL', 'https://olahrizi.42.fr');" >> $WP_CONFIG
+
 
 wp core install --allow-root \
     --url=localhost \
