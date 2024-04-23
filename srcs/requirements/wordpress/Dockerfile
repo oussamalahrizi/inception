@@ -21,10 +21,10 @@ RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
-RUN wget https://wordpress.org/latest.tar.gz && \
-  tar -xzf latest.tar.gz && \
+RUN wget https://wordpress.org/wordpress-6.5.2.tar.gz && \
+  tar -xzf wordpress-6.5.2.tar.gz && \
   mv wordpress/* . && \
-  rm -rf wordpress
+  rm -rf wordpress wordpress-6.5.2.tar.gz
 
 RUN mv wp-config-sample.php wp-config.php
 
