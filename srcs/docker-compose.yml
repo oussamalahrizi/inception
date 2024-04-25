@@ -55,3 +55,28 @@ services:
       - .env
     volumes:
       - "wordpress-data:/var/www/html"
+  redis:
+    build : "./requirements/bonus/redis/."
+    container_name : "redis"
+    expose :
+      - 6380
+    networks:
+      - inception
+  adminer : 
+    build : "./requirements/bonus/adminer/."
+    container_name : "adminer"
+    ports:
+      - "80:80"
+    networks:
+      - inception
+  ftp:
+    build : "./requirements/bonus/ftp/."
+    container_name : "ftp"
+    ports : 
+      - "21:21"
+    networks :
+      - inception
+    volumes:
+      - "wordpress-data:/var/www/html"
+    env_file:
+      - .env

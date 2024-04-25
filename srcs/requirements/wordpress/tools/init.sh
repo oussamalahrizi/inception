@@ -4,8 +4,6 @@ sleep 5
 
 WP_CONFIG="/var/www/html/wp-config.php"
 
-host="https://192.168.0.101"
-
 sed -i "s/'database_name_here'/'$MYSQL_DATABASE'/g" "$WP_CONFIG"
 sed -i "s/'username_here'/'$MYSQL_USER'/g" "$WP_CONFIG"
 sed -i "s/'password_here'/'$MYSQL_PASSWORD'/g" "$WP_CONFIG"
@@ -27,7 +25,16 @@ wp user create --allow-root $WP_USER "flyeroussama@gmail.com" --user_pass=$WP_US
 
 wp theme install twentytwentytwo --activate --allow-root
 
+wp plugin install redis-cache --activate --allow-root ;
+
+wp config set --allow-root WP_REDIS_CLIENT "phpredis" ;
+wp config set --allow-root WP_REDIS_HOST "redis" ;
+wp config set --allow-root WP_REDIS_PORT "6380" ;
+wp config set --allow-root WP_REDIS_PREFIX "wp_" ;
+
+
 wp plugin update --all --allow-root
 
+wp redis enable --allow-root ;
 
 exec $@

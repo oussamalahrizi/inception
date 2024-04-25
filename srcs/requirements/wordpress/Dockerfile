@@ -8,7 +8,10 @@ RUN apt update -y && \
 	php-pdo \
 	php-gd php-cli \
 	php-mbstring \
-  mariadb-client curl wget
+	redis \
+	php-redis \
+  mariadb-client curl wget && \
+  rm -rf /var/lib/apt/lists/*
 
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/
