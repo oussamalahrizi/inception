@@ -74,9 +74,12 @@ services:
     container_name : "ftp"
     ports : 
       - "21:21"
+      - "40000:40000"
     networks :
       - inception
     volumes:
       - "wordpress-data:/var/www/html"
     env_file:
       - .env
+    depends_on:
+      - wordpress
