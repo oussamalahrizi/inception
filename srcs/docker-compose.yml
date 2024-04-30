@@ -2,7 +2,6 @@ version : "3.8"
 
 networks:
   inception:
-    driver : bridge
 
 volumes:
   mariadb-data:
@@ -17,6 +16,12 @@ volumes:
       o : "bind"
       type : "none"
       device : "../data/wordpress"
+  portainer_data:
+    driver: local
+    driver_opts:
+      o : "bind"
+      type : "none"
+      device : "../data/portainer"
 
 services:
   mariadb:
@@ -39,6 +44,9 @@ services:
       - "443:443"
     depends_on:
       - wordpress
+      - static
+      - adminer
+      - portainer
     volumes:
       - "wordpress-data:/var/www/html"
   
@@ -69,6 +77,8 @@ services:
       - "80:80"
     networks:
       - inception
+    depends_on:
+      - mariadb
   ftp:
     build : "./requirements/bonus/ftp/."
     container_name : "ftp"
@@ -83,3 +93,21 @@ services:
       - .env
     depends_on:
       - wordpress
+  static:
+    build : "./requirements/bonus/static/."
+    container_name : "static"
+    ports:
+      - "4040:4040"
+    networks:
+      - inception
+  portainer:
+    container_name : "portainer"
+    build: "./requirements/bonus/portainer/."
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - inception
+
